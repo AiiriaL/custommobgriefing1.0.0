@@ -1,7 +1,6 @@
 package net.aiirial.custommobgriefing;
 
 import net.aiirial.custommobgriefing.config.CustomMobGriefingConfig;
-import net.aiirial.custommobgriefing.events.CustomMobGriefingEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.GameRules;
@@ -9,6 +8,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.aiirial.custommobgriefing.events.CustomMobGriefingEvents;
 
 @Mod(CustomMobGriefing.MOD_ID)
 public class CustomMobGriefing {
@@ -27,12 +27,15 @@ public class CustomMobGriefing {
 
     public CustomMobGriefing() {
         // Events für Mob-Griefing registrieren
-        NeoForge.EVENT_BUS.addListener(CustomMobGriefingEvents::onExplosionDetonate);
-        NeoForge.EVENT_BUS.addListener(CustomMobGriefingEvents::onProjectileImpact);
-        NeoForge.EVENT_BUS.addListener(CustomMobGriefingEvents::onMobBlockBreak);
 
         // Server Events registrieren (z. B. ServerStarting)
         NeoForge.EVENT_BUS.register(this);
+
+        // Mob-Griefing Events registrieren
+        NeoForge.EVENT_BUS.addListener(CustomMobGriefingEvents::onExplosionDetonate);
+        NeoForge.EVENT_BUS.addListener(CustomMobGriefingEvents::onProjectileImpact);
+        NeoForge.EVENT_BUS.addListener(CustomMobGriefingEvents::onMobBlockBreak);
+        NeoForge.EVENT_BUS.addListener(CustomMobGriefingEvents::onEntityMobGriefing);
 
         // Gamerules registrieren
         registerGameRules();
